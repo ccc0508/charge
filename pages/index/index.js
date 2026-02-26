@@ -18,17 +18,21 @@ const CATEGORY_MAP = {
 Page({
   data: {
     summary: { income: 0, expense: 0, balance: 0 },
-    groupedRecords: [], // [{ date, dateLabel, records: [] }]
+    groupedRecords: [],
     currentYear: 0,
     currentMonth: 0,
+    pickerValue: '',
     isEmpty: true
   },
 
   onLoad() {
     const now = new Date()
+    const y = now.getFullYear()
+    const m = now.getMonth() + 1
     this.setData({
-      currentYear: now.getFullYear(),
-      currentMonth: now.getMonth() + 1
+      currentYear: y,
+      currentMonth: m,
+      pickerValue: `${y}-${String(m).padStart(2, '0')}`
     })
   },
 
@@ -41,16 +45,23 @@ Page({
     let { currentYear, currentMonth } = this.data
     currentMonth--
     if (currentMonth < 1) { currentMonth = 12; currentYear-- }
-    this.setData({ currentYear, currentMonth })
+    this.setData({ currentYear, currentMonth, pickerValue: `${currentYear}-${String(currentMonth).padStart(2, '0')}` })
     this.loadData()
   },
 
-  /** 下一个月 */
   nextMonth() {
     let { currentYear, currentMonth } = this.data
     currentMonth++
     if (currentMonth > 12) { currentMonth = 1; currentYear++ }
-    this.setData({ currentYear, currentMonth })
+    this.setData({ currentYear, currentMonth, pickerValue: `${currentYear}-${String(currentMonth).padStart(2, '0')}` })
+    this.loadData()
+  },
+
+  /** 日历选择器 */
+  onDatePick(e) {
+    const val = e.detail.value  // "2026-02"
+    const [y, m] = val.split('-').map(Number)
+    this.setData({ currentYear: y, currentMonth: m, pickerValue: val })
     this.loadData()
   },
 

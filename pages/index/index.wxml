@@ -5,7 +5,9 @@
   <text class="page-title">记账本</text>
   <view class="month-selector">
     <view class="month-arrow" hover-class="month-arrow-hover" hover-stay-time="0" bindtap="prevMonth">‹</view>
-    <text class="month-text">{{currentYear}}年{{currentMonth}}月</text>
+    <picker mode="date" fields="month" value="{{pickerValue}}" bindchange="onDatePick">
+      <text class="month-text">{{currentYear}}年{{currentMonth}}月</text>
+    </picker>
     <view class="month-arrow" hover-class="month-arrow-hover" hover-stay-time="0" bindtap="nextMonth">›</view>
   </view>
 </view>
