@@ -121,10 +121,7 @@ Page({
         if (amount === '0' && val === '0') return
 
         amount += val
-        this.setData({
-            amount,
-            displayAmount: this._formatDisplay(amount)
-        })
+        this.setData({ amount, displayAmount: amount })
     },
 
     /** 数字键盘 - 删除 */
@@ -133,20 +130,12 @@ Page({
         if (amount.length === 0) return
 
         amount = amount.slice(0, -1)
-        this.setData({
-            amount,
-            displayAmount: this._formatDisplay(amount)
-        })
+        this.setData({ amount, displayAmount: amount || '0.00' })
     },
 
     /** 格式化显示金额 */
     _formatDisplay(val) {
         if (!val || val === '' || val === '.') return '0.00'
-        // 如果是纯整数，加 .00
-        if (!val.includes('.')) {
-            return parseFloat(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-        }
-        // 有小数点，按原样显示
         return val
     },
 

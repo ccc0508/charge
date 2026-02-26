@@ -166,11 +166,11 @@ page {
   font-weight: 500;
   color: #1a1a2e;
   height: 100rpx;
-  transition: background 0.1s ease;
 }
 
 .key:active {
   background: #d8d9de;
+  transform: scale(0.95);
 }
 
 .key-del {
