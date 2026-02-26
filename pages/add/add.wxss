@@ -38,7 +38,7 @@ page {
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
 }
 
-/* ==================== 金额显示区 ==================== */
+/* ==================== 金额输入区 ==================== */
 .amount-display {
   display: flex;
   align-items: center;
@@ -46,27 +46,19 @@ page {
   padding: 60rpx 32rpx 48rpx;
 }
 
-.amount-value {
+.amount-input {
   font-size: 96rpx;
   font-weight: 700;
   color: #1a1a2e;
+  text-align: center;
   letter-spacing: 2rpx;
+  width: 100%;
+  border: none;
 }
 
-/* 隐藏的输入框 */
-.amount-input-hidden {
-  position: fixed;
-  top: -200rpx;
-  left: -200rpx;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.hidden-input {
-  width: 100rpx;
-  height: 60rpx;
+.amount-placeholder {
+  color: #ddd;
+  font-weight: 400;
 }
 
 /* ==================== 分类选择区 ==================== */

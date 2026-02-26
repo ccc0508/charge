@@ -20,9 +20,17 @@
   </view>
 </view>
 
-<!-- 金额显示区 -->
+<!-- 金额输入区 -->
 <view class="amount-display">
-  <text class="amount-value">{{amount || '0.00'}}</text>
+  <input
+    class="amount-input"
+    type="digit"
+    placeholder="0.00"
+    placeholder-class="amount-placeholder"
+    value="{{amount}}"
+    bindinput="onAmountInput"
+    focus="{{true}}"
+  />
 </view>
 
 <!-- 分类选择区 -->
@@ -66,17 +74,6 @@
       </view>
     </picker>
   </view>
-</view>
-
-<!-- 金额输入区（隐藏原生键盘） -->
-<view class="amount-input-hidden">
-  <input
-    type="digit"
-    value="{{amount}}"
-    bindinput="onAmountInput"
-    focus="{{true}}"
-    class="hidden-input"
-  />
 </view>
 
 <!-- 保存按钮 -->
