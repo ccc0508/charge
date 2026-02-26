@@ -189,11 +189,11 @@ Page({
         wx.showToast({
             title: '保存成功',
             icon: 'success',
-            duration: 1500
+            duration: 800
         })
 
         setTimeout(() => {
             wx.navigateBack()
-        }, 1500)
+        }, 600)
     }
 })
