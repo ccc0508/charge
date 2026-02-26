@@ -168,7 +168,7 @@ page {
   height: 100rpx;
 }
 
-.key:active {
+.key-hover {
   background: #d8d9de;
   transform: scale(0.95);
 }
@@ -177,7 +177,7 @@ page {
   background: #d4d5da;
 }
 
-.key-del:active {
+.key-del-hover {
   background: #c0c1c6;
 }
 
@@ -196,7 +196,7 @@ page {
   transition: background 0.1s ease;
 }
 
-.key-done:active {
+.key-done-hover {
   background: #e55a28;
 }
 

@@ -59,23 +59,23 @@
 <!-- 自定义数字键盘 -->
 <view class="keypad">
   <view class="keypad-grid">
-    <view class="key" data-val="7" bindtap="onKeyTap">7</view>
-    <view class="key" data-val="8" bindtap="onKeyTap">8</view>
-    <view class="key" data-val="9" bindtap="onKeyTap">9</view>
-    <view class="key" data-val="4" bindtap="onKeyTap">4</view>
-    <view class="key" data-val="5" bindtap="onKeyTap">5</view>
-    <view class="key" data-val="6" bindtap="onKeyTap">6</view>
-    <view class="key" data-val="1" bindtap="onKeyTap">1</view>
-    <view class="key" data-val="2" bindtap="onKeyTap">2</view>
-    <view class="key" data-val="3" bindtap="onKeyTap">3</view>
-    <view class="key" data-val="." bindtap="onKeyTap">.</view>
-    <view class="key" data-val="0" bindtap="onKeyTap">0</view>
-    <view class="key key-del" bindtap="onKeyDelete">
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="7" bindtap="onKeyTap">7</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="8" bindtap="onKeyTap">8</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="9" bindtap="onKeyTap">9</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="4" bindtap="onKeyTap">4</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="5" bindtap="onKeyTap">5</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="6" bindtap="onKeyTap">6</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="1" bindtap="onKeyTap">1</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="2" bindtap="onKeyTap">2</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="3" bindtap="onKeyTap">3</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="." bindtap="onKeyTap">.</view>
+    <view class="key" hover-class="key-hover" hover-stay-time="0" data-val="0" bindtap="onKeyTap">0</view>
+    <view class="key key-del" hover-class="key-del-hover" hover-stay-time="0" bindtap="onKeyDelete">
       <text class="del-icon">⌫</text>
     </view>
   </view>
   <view class="keypad-right">
-    <view class="key-done" bindtap="onSave">
+    <view class="key-done" hover-class="key-done-hover" hover-stay-time="0" bindtap="onSave">
       <text class="done-text">完成</text>
     </view>
   </view>
