@@ -148,6 +148,11 @@ Page({
     wx.navigateTo({ url: '/pages/trend/trend' })
   },
 
+  /** 跳转到资产页面 */
+  goToAsset() {
+    wx.navigateTo({ url: '/pages/asset/asset' })
+  },
+
   /** 触摸开始 */
   onTouchStart(e) {
     this._touchStartX = e.touches[0].clientX

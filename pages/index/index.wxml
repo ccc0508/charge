@@ -44,6 +44,12 @@
     </view>
     <text class="quick-label">趋势</text>
   </view>
+  <view class="quick-item" bindtap="goToAsset">
+    <view class="quick-icon-wrap" style="background:#fde8e8;">
+      <text class="quick-icon">💰</text>
+    </view>
+    <text class="quick-label">资产</text>
+  </view>
 </view>
 
 <!-- 记录列表 -->

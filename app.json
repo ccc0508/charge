@@ -5,6 +5,7 @@
     "pages/stats/stats",
     "pages/rank/rank",
     "pages/trend/trend",
+    "pages/asset/asset",
     "pages/logs/logs"
   ],
   "window": {

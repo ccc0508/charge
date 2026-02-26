@@ -90,10 +90,48 @@ function getYearRecords(year) {
     return getRecords().filter(r => r.date && r.date.startsWith(prefix))
 }
 
+/**
+ * 获取初始资产
+ * @returns {number}
+ */
+function getInitialAsset() {
+    const val = wx.getStorageSync('charge_initial_asset')
+    return typeof val === 'number' ? val : 0
+}
+
+/**
+ * 设置初始资产
+ * @param {number} val
+ */
+function setInitialAsset(val) {
+    wx.setStorageSync('charge_initial_asset', Math.round(parseFloat(val) * 100) / 100)
+}
+
+/**
+ * 获取当前总资产 = 初始资产 + 总收入 - 总支出
+ * @returns {object} { initial, totalIncome, totalExpense, net }
+ */
+function getTotalAsset() {
+    const initial = getInitialAsset()
+    const records = getRecords()
+    let totalIncome = 0, totalExpense = 0
+    records.forEach(r => {
+        if (r.type === 'income') totalIncome += r.amount
+        else totalExpense += r.amount
+    })
+    totalIncome = Math.round(totalIncome * 100) / 100
+    totalExpense = Math.round(totalExpense * 100) / 100
+    const net = Math.round((initial + totalIncome - totalExpense) * 100) / 100
+    return { initial, totalIncome, totalExpense, net }
+}
+
 module.exports = {
     saveRecord,
     getRecords,
     deleteRecord,
     getMonthRecords,
-    getYearRecords
+    getYearRecords,
+    getInitialAsset,
+    setInitialAsset,
+    getTotalAsset
 }

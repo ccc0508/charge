@@ -1,0 +1,76 @@
+<!--pages/asset/asset.wxml-->
+
+<view class="page-header">
+  <text class="page-title">我的资产</text>
+</view>
+
+<!-- 总资产卡片 -->
+<view class="asset-card {{net >= 0 ? 'card-positive' : 'card-negative'}}">
+  <text class="asset-card-label">净资产</text>
+  <text class="asset-card-amount">¥ {{net}}</text>
+  <view class="asset-card-tag" wx:if="{{net < 0}}">
+    <text class="tag-text">负债中</text>
+  </view>
+</view>
+
+<!-- 资产明细 -->
+<view class="detail-section">
+  <view class="detail-item">
+    <view class="detail-left">
+      <view class="detail-icon-wrap" style="background:#eef0fb;">
+        <text class="detail-icon">🏦</text>
+      </view>
+      <text class="detail-label">起始资产</text>
+    </view>
+    <text class="detail-value">¥ {{initial}}</text>
+  </view>
+
+  <view class="detail-divider"></view>
+
+  <view class="detail-item">
+    <view class="detail-left">
+      <view class="detail-icon-wrap" style="background:#edfcf2;">
+        <text class="detail-icon">📥</text>
+      </view>
+      <text class="detail-label">累计收入</text>
+    </view>
+    <text class="detail-value income-color">+ ¥ {{totalIncome}}</text>
+  </view>
+
+  <view class="detail-divider"></view>
+
+  <view class="detail-item">
+    <view class="detail-left">
+      <view class="detail-icon-wrap" style="background:#fff0ee;">
+        <text class="detail-icon">📤</text>
+      </view>
+      <text class="detail-label">累计支出</text>
+    </view>
+    <text class="detail-value expense-color">- ¥ {{totalExpense}}</text>
+  </view>
+</view>
+
+<!-- 设置初始资产 -->
+<view class="setting-section">
+  <view class="setting-header">
+    <text class="setting-title">设置起始资产</text>
+    <text class="setting-hint">可输入负数表示负债</text>
+  </view>
+
+  <view class="input-row">
+    <text class="input-prefix">¥</text>
+    <input
+      class="asset-input"
+      type="digit"
+      placeholder="输入金额"
+      placeholder-class="input-placeholder"
+      value="{{inputAmount}}"
+      bindinput="onAmountInput"
+      focus="{{editing}}"
+    />
+  </view>
+
+  <button class="save-btn" bindtap="onSave">保存</button>
+</view>
+
+<view style="height: 60rpx;"></view>
