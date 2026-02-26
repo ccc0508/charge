@@ -1,24 +1,54 @@
 <!--pages/index/index.wxml-->
 
-<!-- 顶部统计卡片 -->
-<view class="header">
-  <view class="header-top">
-    <view class="month-title">{{currentYear}}年{{currentMonth}}月</view>
-    <view class="stats-btn" bindtap="goToStats">📊 统计</view>
+<!-- 页面标题 -->
+<view class="page-header">
+  <text class="page-title">记账本</text>
+  <text class="page-month">{{currentMonth}}月</text>
+</view>
+
+<!-- 余额卡片 -->
+<view class="balance-card">
+  <view class="balance-top">
+    <text class="balance-label">本月结余 (元)</text>
   </view>
-  <view class="summary-cards">
-    <view class="card card-income">
-      <text class="card-label">收入</text>
-      <text class="card-amount">{{summary.income}}</text>
+  <text class="balance-amount">{{summary.balance < 0 ? '' : ''}}{{summary.balance}}</text>
+  <view class="balance-row">
+    <view class="balance-col">
+      <text class="balance-sub-label">收入</text>
+      <text class="balance-sub-amount income-color">{{summary.income}}</text>
     </view>
-    <view class="card card-expense">
-      <text class="card-label">支出</text>
-      <text class="card-amount">{{summary.expense}}</text>
+    <view class="balance-col">
+      <text class="balance-sub-label">支出</text>
+      <text class="balance-sub-amount expense-color">{{summary.expense}}</text>
     </view>
-    <view class="card card-balance">
-      <text class="card-label">结余</text>
-      <text class="card-amount">{{summary.balance}}</text>
+  </view>
+</view>
+
+<!-- 快捷入口 -->
+<view class="quick-actions">
+  <view class="quick-item" bindtap="goToStats">
+    <view class="quick-icon-wrap" style="background:#eef0fb;">
+      <text class="quick-icon">📊</text>
     </view>
+    <text class="quick-label">报表</text>
+  </view>
+  <view class="quick-item" bindtap="goToStats">
+    <view class="quick-icon-wrap" style="background:#fef4e6;">
+      <text class="quick-icon">💰</text>
+    </view>
+    <text class="quick-label">资产</text>
+  </view>
+  <view class="quick-item" bindtap="goToStats">
+    <view class="quick-icon-wrap" style="background:#fde8e8;">
+      <text class="quick-icon">🎯</text>
+    </view>
+    <text class="quick-label">预算</text>
+  </view>
+  <view class="quick-item" bindtap="goToStats">
+    <view class="quick-icon-wrap" style="background:#e8f5e9;">
+      <text class="quick-icon">⚙️</text>
+    </view>
+    <text class="quick-label">统计</text>
   </view>
 </view>
 
@@ -27,7 +57,8 @@
   <!-- 空状态 -->
   <view wx:if="{{isEmpty}}" class="empty-state">
     <text class="empty-icon">📝</text>
-    <text class="empty-text">暂无记录，点击下方按钮开始记账吧</text>
+    <text class="empty-text">暂无记录</text>
+    <text class="empty-sub">点击下方按钮开始记账吧</text>
   </view>
 
   <!-- 按日期分组 -->
@@ -36,41 +67,43 @@
       <text class="date-label">{{item.dateLabel}}</text>
     </view>
 
-    <view
-      wx:for="{{item.records}}"
-      wx:for-item="record"
-      wx:key="id"
-      class="swipe-wrapper"
-    >
+    <view class="records-card">
       <view
-        class="record-item"
-        style="transform: translateX({{record.swipeOffset || 0}}px);"
-        data-id="{{record.id}}"
-        data-gidx="{{index}}"
-        data-ridx="{{index}}"
-        catchtouchstart="onTouchStart"
-        catchtouchmove="onTouchMove"
-        catchtouchend="onTouchEnd"
+        wx:for="{{item.records}}"
+        wx:for-item="record"
+        wx:key="id"
+        class="swipe-wrapper"
       >
-        <view class="record-left">
-          <text class="record-icon">{{record.categoryIcon}}</text>
-          <view class="record-info">
-            <text class="record-category">{{record.categoryLabel}}</text>
-            <text wx:if="{{record.note}}" class="record-note">{{record.note}}</text>
+        <view
+          class="record-item"
+          style="transform: translateX({{record.swipeOffset || 0}}px);"
+          data-id="{{record.id}}"
+          catchtouchstart="onTouchStart"
+          catchtouchmove="onTouchMove"
+          catchtouchend="onTouchEnd"
+        >
+          <view class="record-left">
+            <view class="record-icon-wrap {{record.isIncome ? 'icon-bg-income' : 'icon-bg-expense'}}">
+              <text class="record-icon">{{record.categoryIcon}}</text>
+            </view>
+            <view class="record-info">
+              <text class="record-category">{{record.categoryLabel}}</text>
+              <text class="record-note">{{record.note || record.date}}</text>
+            </view>
           </view>
+          <text class="record-amount {{record.isIncome ? 'income-color' : 'expense-color'}}">
+            {{record.amountText}}
+          </text>
         </view>
-        <text class="record-amount {{record.isIncome ? 'amount-income' : 'amount-expense'}}">
-          {{record.amountText}}
-        </text>
-      </view>
-      <view class="delete-btn" data-id="{{record.id}}" bindtap="onDeleteRecord">
-        <text>删除</text>
+        <view class="delete-btn" data-id="{{record.id}}" bindtap="onDeleteRecord">
+          <text>删除</text>
+        </view>
       </view>
     </view>
   </view>
 </view>
 
-<!-- 底部占位（避免 FAB 遮挡内容） -->
+<!-- 底部占位 -->
 <view class="bottom-spacer"></view>
 
 <!-- 悬浮添加按钮 -->

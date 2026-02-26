@@ -6,7 +6,7 @@ page {
     'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   font-size: 28rpx;
   color: #333;
-  background-color: #f5f6fa;
+  background-color: #f7f8fc;
   -webkit-font-smoothing: antialiased;
 }
 

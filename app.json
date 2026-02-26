@@ -6,9 +6,9 @@
     "pages/logs/logs"
   ],
   "window": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "记账本",
-    "navigationBarBackgroundColor": "#667eea"
+    "navigationBarBackgroundColor": "#f7f8fc"
   },
   "style": "v2",
   "componentFramework": "glass-easel",

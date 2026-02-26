@@ -1,33 +1,40 @@
 <!--pages/stats/stats.wxml-->
 
-<!-- 月份选择 -->
-<view class="month-nav">
-  <view class="nav-arrow" bindtap="prevMonth">‹</view>
-  <text class="nav-title">{{currentYear}}年{{currentMonth}}月</text>
-  <view class="nav-arrow" bindtap="nextMonth">›</view>
+<!-- 页面标题 + 月份选择 -->
+<view class="stats-header">
+  <text class="stats-title">收支统计</text>
+  <view class="month-selector">
+    <view class="nav-arrow" bindtap="prevMonth">‹</view>
+    <text class="nav-title">{{currentMonth}}月</text>
+    <view class="nav-arrow" bindtap="nextMonth">›</view>
+  </view>
 </view>
 
 <!-- 支出扇形图 -->
 <view class="chart-section">
   <view class="chart-header">
     <text class="chart-title">支出构成</text>
-    <text class="chart-total amount-expense">¥{{totalExpense}}</text>
+    <text class="chart-total expense-color">¥{{totalExpense}}</text>
   </view>
 
   <view wx:if="{{hasExpense}}" class="chart-body">
     <view class="chart-canvas-wrap">
       <canvas id="expenseCanvas" type="2d" class="pie-canvas"></canvas>
     </view>
-    <view class="legend-list">
-      <view wx:for="{{expenseData}}" wx:key="category" class="legend-item">
-        <view class="legend-left">
-          <view class="legend-dot" style="background:{{item.color}};"></view>
-          <text class="legend-icon">{{item.icon}}</text>
-          <text class="legend-label">{{item.label}}</text>
+
+    <!-- 排行榜式图例（带进度条） -->
+    <view class="rank-bar-list">
+      <view class="rank-bar-title">排行榜</view>
+      <view wx:for="{{expenseData}}" wx:key="category" class="rank-bar-item">
+        <view class="rank-bar-left">
+          <text class="rank-bar-icon">{{item.icon}}</text>
+          <text class="rank-bar-label">{{item.label}}</text>
         </view>
-        <view class="legend-right">
-          <text class="legend-amount">¥{{item.total}}</text>
-          <text class="legend-percent">{{item.percent}}%</text>
+        <view class="rank-bar-right">
+          <view class="rank-bar-track">
+            <view class="rank-bar-fill" style="width: {{item.percent}}%; background: {{item.color}};"></view>
+          </view>
+          <text class="rank-bar-percent">{{item.percent}}%</text>
         </view>
       </view>
     </view>
@@ -42,23 +49,26 @@
 <view class="chart-section">
   <view class="chart-header">
     <text class="chart-title">收入构成</text>
-    <text class="chart-total amount-income">¥{{totalIncome}}</text>
+    <text class="chart-total income-color">¥{{totalIncome}}</text>
   </view>
 
   <view wx:if="{{hasIncome}}" class="chart-body">
     <view class="chart-canvas-wrap">
       <canvas id="incomeCanvas" type="2d" class="pie-canvas"></canvas>
     </view>
-    <view class="legend-list">
-      <view wx:for="{{incomeData}}" wx:key="category" class="legend-item">
-        <view class="legend-left">
-          <view class="legend-dot" style="background:{{item.color}};"></view>
-          <text class="legend-icon">{{item.icon}}</text>
-          <text class="legend-label">{{item.label}}</text>
+
+    <view class="rank-bar-list">
+      <view class="rank-bar-title">排行榜</view>
+      <view wx:for="{{incomeData}}" wx:key="category" class="rank-bar-item">
+        <view class="rank-bar-left">
+          <text class="rank-bar-icon">{{item.icon}}</text>
+          <text class="rank-bar-label">{{item.label}}</text>
         </view>
-        <view class="legend-right">
-          <text class="legend-amount">¥{{item.total}}</text>
-          <text class="legend-percent">{{item.percent}}%</text>
+        <view class="rank-bar-right">
+          <view class="rank-bar-track">
+            <view class="rank-bar-fill" style="width: {{item.percent}}%; background: {{item.color}};"></view>
+          </view>
+          <text class="rank-bar-percent">{{item.percent}}%</text>
         </view>
       </view>
     </view>
@@ -68,6 +78,7 @@
     <text class="empty-chart-text">本月暂无收入记录</text>
   </view>
 </view>
+
 <!-- 支出排行榜 -->
 <view class="chart-section" wx:if="{{hasExpense}}">
   <view class="chart-header">
@@ -78,13 +89,15 @@
     <view wx:for="{{expenseRank}}" wx:key="id" class="rank-item">
       <view class="rank-left">
         <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
-        <view class="rank-icon">{{item.categoryIcon}}</view>
+        <view class="rank-icon-wrap rank-icon-expense">
+          <text class="rank-icon">{{item.categoryIcon}}</text>
+        </view>
         <view class="rank-info">
           <text class="rank-label">{{item.categoryLabel}}</text>
           <text class="rank-note">{{item.note || item.date}}</text>
         </view>
       </view>
-      <text class="rank-amount amount-expense">{{item.amountText}}</text>
+      <text class="rank-amount expense-color">{{item.amountText}}</text>
     </view>
   </view>
 </view>
@@ -99,13 +112,15 @@
     <view wx:for="{{incomeRank}}" wx:key="id" class="rank-item">
       <view class="rank-left">
         <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
-        <view class="rank-icon">{{item.categoryIcon}}</view>
+        <view class="rank-icon-wrap rank-icon-income">
+          <text class="rank-icon">{{item.categoryIcon}}</text>
+        </view>
         <view class="rank-info">
           <text class="rank-label">{{item.categoryLabel}}</text>
           <text class="rank-note">{{item.note || item.date}}</text>
         </view>
       </view>
-      <text class="rank-amount amount-income">{{item.amountText}}</text>
+      <text class="rank-amount income-color">{{item.amountText}}</text>
     </view>
   </view>
 </view>
@@ -116,7 +131,6 @@
     <text class="chart-title">📊 {{currentYear}}年收支趋势</text>
   </view>
 
-  <!-- 图例 -->
   <view class="bar-legend">
     <view class="bar-legend-item">
       <view class="bar-legend-dot" style="background: #e74c3c;"></view>
@@ -128,20 +142,18 @@
     </view>
   </view>
 
-  <!-- 柱形图 Canvas -->
   <view class="bar-canvas-wrap">
     <canvas id="yearlyBarCanvas" type="2d" class="bar-canvas"></canvas>
   </view>
 
-  <!-- 年度汇总 -->
   <view class="yearly-summary">
     <view class="yearly-summary-item">
       <text class="yearly-summary-label">年度收入</text>
-      <text class="yearly-summary-value amount-income">¥{{yearlyTotalIncome}}</text>
+      <text class="yearly-summary-value income-color">¥{{yearlyTotalIncome}}</text>
     </view>
     <view class="yearly-summary-item">
       <text class="yearly-summary-label">年度支出</text>
-      <text class="yearly-summary-value amount-expense">¥{{yearlyTotalExpense}}</text>
+      <text class="yearly-summary-value expense-color">¥{{yearlyTotalExpense}}</text>
     </view>
     <view class="yearly-summary-item">
       <text class="yearly-summary-label">年度结余</text>
