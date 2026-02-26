@@ -7,7 +7,9 @@ const expenseCategories = [
     { key: 'transport', label: '交通', icon: '🚌' },
     { key: 'shopping', label: '购物', icon: '🛒' },
     { key: 'entertainment', label: '娱乐', icon: '🎮' },
+    { key: 'housing', label: '住房', icon: '🏠' },
     { key: 'medical', label: '医疗', icon: '💊' },
+    { key: 'education', label: '教育', icon: '📚' },
     { key: 'other_expense', label: '其他', icon: '📦' }
 ]
 
@@ -16,6 +18,7 @@ const incomeCategories = [
     { key: 'salary', label: '工资', icon: '💰' },
     { key: 'bonus', label: '奖金', icon: '🎁' },
     { key: 'investment', label: '理财', icon: '📈' },
+    { key: 'parttime', label: '兼职', icon: '💼' },
     { key: 'other_income', label: '其他', icon: '📦' }
 ]
 
@@ -30,19 +33,42 @@ function getToday() {
     return `${y}-${m}-${day}`
 }
 
+/**
+ * 格式化日期显示（今天/昨天/MM-DD）
+ */
+function formatDateLabel(dateStr) {
+    const today = getToday()
+    if (dateStr === today) return '今天'
+
+    const d = new Date()
+    d.setDate(d.getDate() - 1)
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    if (dateStr === `${y}-${m}-${day}`) return '昨天'
+
+    return dateStr.slice(5) // MM-DD
+}
+
 Page({
     data: {
-        type: 'expense',               // 当前类型
-        categories: expenseCategories,  // 当前分类列表
-        selectedCategory: 'food',      // 选中的分类 key
-        amount: '',                    // 金额
-        note: '',                      // 备注
-        date: '',                      // 日期
-        saving: false                  // 防止重复提交
+        type: 'expense',
+        categories: expenseCategories,
+        selectedCategory: 'food',
+        amount: '',
+        displayAmount: '0.00',
+        note: '',
+        date: '',
+        dateLabel: '今天',
+        saving: false
     },
 
     onLoad() {
-        this.setData({ date: getToday() })
+        const today = getToday()
+        this.setData({
+            date: today,
+            dateLabel: '今天'
+        })
     },
 
     /** 切换 收入/支出 Tab */
@@ -64,22 +90,64 @@ Page({
         this.setData({ selectedCategory: key })
     },
 
-    /** 金额输入 */
-    onAmountInput(e) {
-        let value = e.detail.value
-        // 限制只能输入数字和一个小数点，最多两位小数
-        value = value.replace(/[^\d.]/g, '')
-        // 只保留第一个小数点
-        const parts = value.split('.')
-        if (parts.length > 2) {
-            value = parts[0] + '.' + parts.slice(1).join('')
+    /** 数字键盘 - 输入数字/小数点 */
+    onKeyTap(e) {
+        const val = e.currentTarget.dataset.val
+        let { amount } = this.data
+
+        // 小数点处理
+        if (val === '.') {
+            if (amount.includes('.')) return  // 已有小数点
+            if (amount === '') amount = '0'   // 空串补0
         }
-        // 小数最多两位
-        if (parts.length === 2 && parts[1].length > 2) {
-            value = parts[0] + '.' + parts[1].slice(0, 2)
+
+        // 限制整数部分不超过7位
+        if (val !== '.') {
+            const parts = amount.split('.')
+            if (!amount.includes('.') && parts[0].length >= 7) return
         }
-        this.setData({ amount: value })
-        return value
+
+        // 限制小数最多2位
+        if (amount.includes('.')) {
+            const decPart = amount.split('.')[1]
+            if (val !== '.' && decPart && decPart.length >= 2) return
+        }
+
+        // 前导零处理：如果当前是"0"，输入非0数字则替换
+        if (amount === '0' && val !== '.' && val !== '0') {
+            amount = ''
+        }
+        // 避免多个前导零
+        if (amount === '0' && val === '0') return
+
+        amount += val
+        this.setData({
+            amount,
+            displayAmount: this._formatDisplay(amount)
+        })
+    },
+
+    /** 数字键盘 - 删除 */
+    onKeyDelete() {
+        let { amount } = this.data
+        if (amount.length === 0) return
+
+        amount = amount.slice(0, -1)
+        this.setData({
+            amount,
+            displayAmount: this._formatDisplay(amount)
+        })
+    },
+
+    /** 格式化显示金额 */
+    _formatDisplay(val) {
+        if (!val || val === '' || val === '.') return '0.00'
+        // 如果是纯整数，加 .00
+        if (!val.includes('.')) {
+            return parseFloat(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        }
+        // 有小数点，按原样显示
+        return val
     },
 
     /** 备注输入 */
@@ -89,7 +157,11 @@ Page({
 
     /** 日期选择 */
     onDateChange(e) {
-        this.setData({ date: e.detail.value })
+        const date = e.detail.value
+        this.setData({
+            date,
+            dateLabel: formatDateLabel(date)
+        })
     },
 
     /** 保存记录 */

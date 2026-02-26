@@ -20,65 +20,63 @@
   </view>
 </view>
 
-<!-- 金额输入区 -->
+<!-- 金额显示 -->
 <view class="amount-display">
-  <input
-    class="amount-input"
-    type="digit"
-    placeholder="0.00"
-    placeholder-class="amount-placeholder"
-    value="{{amount}}"
-    bindinput="onAmountInput"
-    focus="{{true}}"
-  />
+  <text class="amount-value">{{displayAmount}}</text>
 </view>
 
-<!-- 分类选择区 -->
-<view class="category-section">
-  <view class="category-grid">
-    <view
-      wx:for="{{categories}}"
-      wx:key="key"
-      class="category-item"
-      data-key="{{item.key}}"
-      bindtap="onCategoryTap"
-    >
-      <view class="category-icon-wrap {{selectedCategory === item.key ? 'category-selected' : ''}}">
-        <text class="category-icon">{{item.icon}}</text>
-      </view>
-      <text class="category-label {{selectedCategory === item.key ? 'label-selected' : ''}}">{{item.label}}</text>
+<!-- 分类选择 -->
+<view class="category-grid">
+  <view
+    wx:for="{{categories}}"
+    wx:key="key"
+    class="category-item"
+    data-key="{{item.key}}"
+    bindtap="onCategoryTap"
+  >
+    <view class="cat-icon-wrap {{selectedCategory === item.key ? 'cat-selected' : ''}}">
+      <text class="cat-icon">{{item.icon}}</text>
+    </view>
+    <text class="cat-label {{selectedCategory === item.key ? 'cat-label-active' : ''}}">{{item.label}}</text>
+  </view>
+</view>
+
+<!-- 备注快捷输入 -->
+<view class="note-bar">
+  <input
+    class="note-input"
+    placeholder="添加备注..."
+    placeholder-class="note-placeholder"
+    value="{{note}}"
+    bindinput="onNoteInput"
+    maxlength="30"
+  />
+  <picker mode="date" value="{{date}}" bindchange="onDateChange">
+    <view class="date-btn">📅 {{dateLabel}}</view>
+  </picker>
+</view>
+
+<!-- 自定义数字键盘 -->
+<view class="keypad">
+  <view class="keypad-grid">
+    <view class="key" data-val="7" bindtap="onKeyTap">7</view>
+    <view class="key" data-val="8" bindtap="onKeyTap">8</view>
+    <view class="key" data-val="9" bindtap="onKeyTap">9</view>
+    <view class="key" data-val="4" bindtap="onKeyTap">4</view>
+    <view class="key" data-val="5" bindtap="onKeyTap">5</view>
+    <view class="key" data-val="6" bindtap="onKeyTap">6</view>
+    <view class="key" data-val="1" bindtap="onKeyTap">1</view>
+    <view class="key" data-val="2" bindtap="onKeyTap">2</view>
+    <view class="key" data-val="3" bindtap="onKeyTap">3</view>
+    <view class="key" data-val="." bindtap="onKeyTap">.</view>
+    <view class="key" data-val="0" bindtap="onKeyTap">0</view>
+    <view class="key key-del" bindtap="onKeyDelete">
+      <text class="del-icon">⌫</text>
     </view>
   </view>
-</view>
-
-<!-- 备注 & 日期 -->
-<view class="form-section">
-  <view class="form-row">
-    <text class="form-label">📝 备注</text>
-    <input
-      class="form-input"
-      placeholder="添加备注（可选）"
-      placeholder-class="form-placeholder"
-      value="{{note}}"
-      bindinput="onNoteInput"
-      maxlength="50"
-    />
+  <view class="keypad-right">
+    <view class="key-done" bindtap="onSave">
+      <text class="done-text">完成</text>
+    </view>
   </view>
-  <view class="form-divider"></view>
-  <view class="form-row">
-    <text class="form-label">📅 日期</text>
-    <picker mode="date" value="{{date}}" bindchange="onDateChange">
-      <view class="date-picker">
-        <text class="date-text">{{date}}</text>
-        <text class="date-arrow">›</text>
-      </view>
-    </picker>
-  </view>
-</view>
-
-<!-- 保存按钮 -->
-<view class="save-section">
-  <button class="save-btn" bindtap="onSave" disabled="{{saving}}">
-    完成
-  </button>
 </view>
