@@ -1,9 +1,13 @@
 <!--pages/index/index.wxml-->
 
-<!-- 页面标题 -->
+<!-- 页面标题 + 月份选择 -->
 <view class="page-header">
   <text class="page-title">记账本</text>
-  <text class="page-month">{{currentMonth}}月</text>
+  <view class="month-selector">
+    <view class="month-arrow" hover-class="month-arrow-hover" hover-stay-time="0" bindtap="prevMonth">‹</view>
+    <text class="month-text">{{currentYear}}年{{currentMonth}}月</text>
+    <view class="month-arrow" hover-class="month-arrow-hover" hover-stay-time="0" bindtap="nextMonth">›</view>
+  </view>
 </view>
 
 <!-- 余额卡片 -->

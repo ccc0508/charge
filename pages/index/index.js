@@ -36,6 +36,24 @@ Page({
     this.loadData()
   },
 
+  /** 上一个月 */
+  prevMonth() {
+    let { currentYear, currentMonth } = this.data
+    currentMonth--
+    if (currentMonth < 1) { currentMonth = 12; currentYear-- }
+    this.setData({ currentYear, currentMonth })
+    this.loadData()
+  },
+
+  /** 下一个月 */
+  nextMonth() {
+    let { currentYear, currentMonth } = this.data
+    currentMonth++
+    if (currentMonth > 12) { currentMonth = 1; currentYear++ }
+    this.setData({ currentYear, currentMonth })
+    this.loadData()
+  },
+
   /** 下拉刷新 */
   onPullDownRefresh() {
     this.loadData()

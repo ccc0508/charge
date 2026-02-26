@@ -19,10 +19,36 @@ page {
   color: #1a1a2e;
 }
 
-.page-month {
-  font-size: 28rpx;
-  color: #999;
-  font-weight: 500;
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.month-arrow {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  color: #ff6b35;
+  font-weight: 700;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.06);
+}
+
+.month-arrow-hover {
+  background: #fff5f0;
+}
+
+.month-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+  min-width: 140rpx;
+  text-align: center;
 }
 
 /* ==================== 余额卡片 ==================== */
