@@ -1,12 +1,14 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/add/add",
+    "pages/stats/stats",
     "pages/logs/logs"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarBackgroundColor": "#ffffff"
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "记账本",
+    "navigationBarBackgroundColor": "#667eea"
   },
   "style": "v2",
   "componentFramework": "glass-easel",

@@ -1,0 +1,114 @@
+<!--pages/stats/stats.wxml-->
+
+<!-- 月份选择 -->
+<view class="month-nav">
+  <view class="nav-arrow" bindtap="prevMonth">‹</view>
+  <text class="nav-title">{{currentYear}}年{{currentMonth}}月</text>
+  <view class="nav-arrow" bindtap="nextMonth">›</view>
+</view>
+
+<!-- 支出扇形图 -->
+<view class="chart-section">
+  <view class="chart-header">
+    <text class="chart-title">支出构成</text>
+    <text class="chart-total amount-expense">¥{{totalExpense}}</text>
+  </view>
+
+  <view wx:if="{{hasExpense}}" class="chart-body">
+    <view class="chart-canvas-wrap">
+      <canvas id="expenseCanvas" type="2d" class="pie-canvas"></canvas>
+    </view>
+    <view class="legend-list">
+      <view wx:for="{{expenseData}}" wx:key="category" class="legend-item">
+        <view class="legend-left">
+          <view class="legend-dot" style="background:{{item.color}};"></view>
+          <text class="legend-icon">{{item.icon}}</text>
+          <text class="legend-label">{{item.label}}</text>
+        </view>
+        <view class="legend-right">
+          <text class="legend-amount">¥{{item.total}}</text>
+          <text class="legend-percent">{{item.percent}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="empty-chart">
+    <text class="empty-chart-text">本月暂无支出记录</text>
+  </view>
+</view>
+
+<!-- 收入扇形图 -->
+<view class="chart-section">
+  <view class="chart-header">
+    <text class="chart-title">收入构成</text>
+    <text class="chart-total amount-income">¥{{totalIncome}}</text>
+  </view>
+
+  <view wx:if="{{hasIncome}}" class="chart-body">
+    <view class="chart-canvas-wrap">
+      <canvas id="incomeCanvas" type="2d" class="pie-canvas"></canvas>
+    </view>
+    <view class="legend-list">
+      <view wx:for="{{incomeData}}" wx:key="category" class="legend-item">
+        <view class="legend-left">
+          <view class="legend-dot" style="background:{{item.color}};"></view>
+          <text class="legend-icon">{{item.icon}}</text>
+          <text class="legend-label">{{item.label}}</text>
+        </view>
+        <view class="legend-right">
+          <text class="legend-amount">¥{{item.total}}</text>
+          <text class="legend-percent">{{item.percent}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="empty-chart">
+    <text class="empty-chart-text">本月暂无收入记录</text>
+  </view>
+</view>
+<!-- 支出排行榜 -->
+<view class="chart-section" wx:if="{{hasExpense}}">
+  <view class="chart-header">
+    <text class="chart-title">🏆 支出排行榜</text>
+    <text class="chart-total" style="color:#999;font-size:24rpx;">TOP {{expenseRank.length}}</text>
+  </view>
+  <view class="rank-list">
+    <view wx:for="{{expenseRank}}" wx:key="id" class="rank-item">
+      <view class="rank-left">
+        <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
+        <view class="rank-icon">{{item.categoryIcon}}</view>
+        <view class="rank-info">
+          <text class="rank-label">{{item.categoryLabel}}</text>
+          <text class="rank-note">{{item.note || item.date}}</text>
+        </view>
+      </view>
+      <text class="rank-amount amount-expense">{{item.amountText}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 收入排行榜 -->
+<view class="chart-section" wx:if="{{hasIncome}}">
+  <view class="chart-header">
+    <text class="chart-title">🏆 收入排行榜</text>
+    <text class="chart-total" style="color:#999;font-size:24rpx;">TOP {{incomeRank.length}}</text>
+  </view>
+  <view class="rank-list">
+    <view wx:for="{{incomeRank}}" wx:key="id" class="rank-item">
+      <view class="rank-left">
+        <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
+        <view class="rank-icon">{{item.categoryIcon}}</view>
+        <view class="rank-info">
+          <text class="rank-label">{{item.categoryLabel}}</text>
+          <text class="rank-note">{{item.note || item.date}}</text>
+        </view>
+      </view>
+      <text class="rank-amount amount-income">{{item.amountText}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 底部留白 -->
+<view style="height: 60rpx;"></view>

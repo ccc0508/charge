@@ -1,0 +1,83 @@
+<!--pages/add/add.wxml-->
+
+<!-- 收入/支出 Tab -->
+<view class="tabs">
+  <view
+    class="tab {{type === 'expense' ? 'tab-active tab-expense' : ''}}"
+    data-type="expense"
+    bindtap="onTabChange"
+  >
+    支出
+  </view>
+  <view
+    class="tab {{type === 'income' ? 'tab-active tab-income' : ''}}"
+    data-type="income"
+    bindtap="onTabChange"
+  >
+    收入
+  </view>
+</view>
+
+<!-- 金额输入区 -->
+<view class="amount-section">
+  <text class="currency-sign">¥</text>
+  <input
+    class="amount-input"
+    type="digit"
+    placeholder="0.00"
+    placeholder-class="amount-placeholder"
+    value="{{amount}}"
+    bindinput="onAmountInput"
+    focus="{{true}}"
+  />
+</view>
+
+<!-- 分类选择区 -->
+<view class="category-section">
+  <view class="section-title">选择分类</view>
+  <view class="category-grid">
+    <view
+      wx:for="{{categories}}"
+      wx:key="key"
+      class="category-item {{selectedCategory === item.key ? 'category-active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onCategoryTap"
+    >
+      <view class="category-icon-wrap {{selectedCategory === item.key ? (type === 'income' ? 'icon-wrap-income' : 'icon-wrap-expense') : ''}}">
+        <text class="category-icon">{{item.icon}}</text>
+      </view>
+      <text class="category-label">{{item.label}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 备注输入 -->
+<view class="form-row">
+  <text class="form-label">📝 备注</text>
+  <input
+    class="form-input"
+    placeholder="添加备注（可选）"
+    placeholder-class="form-placeholder"
+    value="{{note}}"
+    bindinput="onNoteInput"
+    maxlength="50"
+  />
+</view>
+
+<!-- 日期选择 -->
+<view class="form-row">
+  <text class="form-label">📅 日期</text>
+  <picker mode="date" value="{{date}}" bindchange="onDateChange">
+    <view class="date-picker">
+      <text class="date-text">{{date}}</text>
+      <text class="date-arrow">›</text>
+    </view>
+  </picker>
+</view>
+
+<!-- 保存按钮 -->
+<view class="save-section">
+  <button class="save-btn {{type === 'income' ? 'save-btn-income' : 'save-btn-expense'}}" bindtap="onSave" disabled="{{saving}}">
+    保存
+  </button>
+</view>

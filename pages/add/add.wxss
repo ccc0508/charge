@@ -1,0 +1,226 @@
+/* pages/add/add.wxss */
+
+/* ==================== 页面整体 ==================== */
+page {
+  background-color: #f5f6fa;
+}
+
+/* ==================== 收入/支出 Tab ==================== */
+.tabs {
+  display: flex;
+  margin: 24rpx 32rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 6rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #999;
+  border-radius: 16rpx;
+  transition: all 0.25s ease;
+}
+
+.tab-active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.tab-expense {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.tab-income {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+}
+
+/* ==================== 金额输入区 ==================== */
+.amount-section {
+  display: flex;
+  align-items: baseline;
+  padding: 48rpx 32rpx 40rpx;
+  margin: 24rpx 32rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.currency-sign {
+  font-size: 52rpx;
+  font-weight: 700;
+  color: #333;
+  margin-right: 12rpx;
+}
+
+.amount-input {
+  flex: 1;
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #333;
+  border: none;
+  min-height: 80rpx;
+}
+
+.amount-placeholder {
+  color: #ddd;
+  font-weight: 400;
+}
+
+/* ==================== 分类选择区 ==================== */
+.category-section {
+  margin: 24rpx 32rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.section-title {
+  font-size: 26rpx;
+  color: #999;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+  padding-left: 4rpx;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category-item {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.category-icon-wrap {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: #f5f6fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12rpx;
+  transition: all 0.2s ease;
+}
+
+.icon-wrap-expense {
+  background: linear-gradient(135deg, #ffe0dc 0%, #ffc5c0 100%);
+  box-shadow: 0 4rpx 16rpx rgba(231, 76, 60, 0.2);
+}
+
+.icon-wrap-income {
+  background: linear-gradient(135deg, #d4f5e0 0%, #b8ecc8 100%);
+  box-shadow: 0 4rpx 16rpx rgba(46, 204, 113, 0.2);
+}
+
+.category-icon {
+  font-size: 44rpx;
+}
+
+.category-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.category-active .category-label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* ==================== 表单行 ==================== */
+.form-row {
+  display: flex;
+  align-items: center;
+  margin: 24rpx 32rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.form-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  text-align: right;
+}
+
+.form-placeholder {
+  color: #ccc;
+}
+
+/* 日期选择 */
+.date-picker {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.date-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.date-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+  margin-left: 12rpx;
+}
+
+/* ==================== 保存按钮 ==================== */
+.save-section {
+  padding: 48rpx 32rpx 60rpx;
+}
+
+.save-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: 48rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #ffffff;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.save-btn::after {
+  border: none;
+}
+
+.save-btn-expense {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  box-shadow: 0 8rpx 30rpx rgba(231, 76, 60, 0.35);
+}
+
+.save-btn-income {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  box-shadow: 0 8rpx 30rpx rgba(46, 204, 113, 0.35);
+}
+
+.save-btn:active {
+  transform: scale(0.97);
+}
+
+.save-btn[disabled] {
+  opacity: 0.6;
+}
