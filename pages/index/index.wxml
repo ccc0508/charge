@@ -78,9 +78,9 @@
           class="record-item"
           style="transform: translateX({{record.swipeOffset || 0}}px);"
           data-id="{{record.id}}"
-          catchtouchstart="onTouchStart"
-          catchtouchmove="onTouchMove"
-          catchtouchend="onTouchEnd"
+          bindtouchstart="onTouchStart"
+          bindtouchmove="onTouchMove"
+          bindtouchend="onTouchEnd"
         >
           <view class="record-left">
             <view class="record-icon-wrap {{record.isIncome ? 'icon-bg-income' : 'icon-bg-expense'}}">
