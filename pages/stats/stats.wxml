@@ -110,5 +110,45 @@
   </view>
 </view>
 
+<!-- 年度收支趋势柱形图 -->
+<view class="chart-section" wx:if="{{hasYearlyData}}">
+  <view class="chart-header">
+    <text class="chart-title">📊 {{currentYear}}年收支趋势</text>
+  </view>
+
+  <!-- 图例 -->
+  <view class="bar-legend">
+    <view class="bar-legend-item">
+      <view class="bar-legend-dot" style="background: #e74c3c;"></view>
+      <text class="bar-legend-text">支出</text>
+    </view>
+    <view class="bar-legend-item">
+      <view class="bar-legend-dot" style="background: #2ecc71;"></view>
+      <text class="bar-legend-text">收入</text>
+    </view>
+  </view>
+
+  <!-- 柱形图 Canvas -->
+  <view class="bar-canvas-wrap">
+    <canvas id="yearlyBarCanvas" type="2d" class="bar-canvas"></canvas>
+  </view>
+
+  <!-- 年度汇总 -->
+  <view class="yearly-summary">
+    <view class="yearly-summary-item">
+      <text class="yearly-summary-label">年度收入</text>
+      <text class="yearly-summary-value amount-income">¥{{yearlyTotalIncome}}</text>
+    </view>
+    <view class="yearly-summary-item">
+      <text class="yearly-summary-label">年度支出</text>
+      <text class="yearly-summary-value amount-expense">¥{{yearlyTotalExpense}}</text>
+    </view>
+    <view class="yearly-summary-item">
+      <text class="yearly-summary-label">年度结余</text>
+      <text class="yearly-summary-value" style="color: {{yearlyBalance >= 0 ? '#2ecc71' : '#e74c3c'}}">¥{{yearlyBalance}}</text>
+    </view>
+  </view>
+</view>
+
 <!-- 底部留白 -->
 <view style="height: 60rpx;"></view>

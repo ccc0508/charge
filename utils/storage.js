@@ -80,9 +80,20 @@ function getMonthRecords(year, month) {
     return getRecords().filter(r => r.date && r.date.startsWith(prefix))
 }
 
+/**
+ * 获取指定年份的所有记录
+ * @param {number} year - 年份，如 2026
+ * @returns {Array} 匹配的记录
+ */
+function getYearRecords(year) {
+    const prefix = `${year}-`
+    return getRecords().filter(r => r.date && r.date.startsWith(prefix))
+}
+
 module.exports = {
     saveRecord,
     getRecords,
     deleteRecord,
-    getMonthRecords
+    getMonthRecords,
+    getYearRecords
 }

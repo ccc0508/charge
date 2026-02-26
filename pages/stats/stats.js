@@ -30,7 +30,12 @@ Page({
         expenseRank: [],   // 支出排行榜（单笔记录）
         incomeRank: [],    // 收入排行榜（单笔记录）
         hasExpense: false,
-        hasIncome: false
+        hasIncome: false,
+        yearlyData: [],    // [{ month, income, expense }] 1-12月
+        yearlyTotalIncome: 0,
+        yearlyTotalExpense: 0,
+        yearlyBalance: 0,
+        hasYearlyData: false
     },
 
     onLoad() {
@@ -87,6 +92,9 @@ Page({
         const expenseRank = this.buildRank(expenseRecords)
         const incomeRank = this.buildRank(incomeRecords)
 
+        // 年度数据
+        const yearlyResult = this.buildYearlyData(currentYear)
+
         this.setData({
             expenseData,
             incomeData,
@@ -95,7 +103,12 @@ Page({
             expenseRank,
             incomeRank,
             hasExpense: expenseData.length > 0,
-            hasIncome: incomeData.length > 0
+            hasIncome: incomeData.length > 0,
+            yearlyData: yearlyResult.data,
+            yearlyTotalIncome: yearlyResult.totalIncome,
+            yearlyTotalExpense: yearlyResult.totalExpense,
+            yearlyBalance: yearlyResult.balance,
+            hasYearlyData: yearlyResult.hasData
         })
 
         // 绘制扇形图
@@ -104,6 +117,11 @@ Page({
         }
         if (incomeData.length > 0) {
             this.drawPieChart('incomeCanvas', incomeData, totalIncome)
+        }
+
+        // 绘制年度柱形图
+        if (yearlyResult.hasData) {
+            this.drawBarChart('yearlyBarCanvas', yearlyResult.data)
         }
     },
 
@@ -205,5 +223,179 @@ Page({
                     amountText: '¥' + r.amount.toFixed(2)
                 }
             })
+    },
+
+    /** 构建年度月度数据 */
+    buildYearlyData(year) {
+        const yearRecords = storage.getYearRecords(year)
+        const data = []
+        let totalIncome = 0
+        let totalExpense = 0
+
+        for (let m = 1; m <= 12; m++) {
+            const prefix = `${year}-${String(m).padStart(2, '0')}`
+            const monthRecords = yearRecords.filter(r => r.date.startsWith(prefix))
+            let income = 0, expense = 0
+            monthRecords.forEach(r => {
+                if (r.type === 'income') income += r.amount
+                else expense += r.amount
+            })
+            income = Math.round(income * 100) / 100
+            expense = Math.round(expense * 100) / 100
+            totalIncome += income
+            totalExpense += expense
+            data.push({ month: m, income, expense })
+        }
+
+        totalIncome = Math.round(totalIncome * 100) / 100
+        totalExpense = Math.round(totalExpense * 100) / 100
+        const balance = Math.round((totalIncome - totalExpense) * 100) / 100
+        const hasData = yearRecords.length > 0
+
+        return { data, totalIncome, totalExpense, balance, hasData }
+    },
+
+    /** 绘制年度收支柱形图 */
+    drawBarChart(canvasId, yearlyData) {
+        const query = wx.createSelectorQuery()
+        query.select(`#${canvasId}`)
+            .fields({ node: true, size: true })
+            .exec((res) => {
+                if (!res[0]) return
+
+                const canvas = res[0].node
+                const ctx = canvas.getContext('2d')
+                const dpr = wx.getWindowInfo().pixelRatio
+                const width = res[0].width
+                const height = res[0].height
+
+                canvas.width = width * dpr
+                canvas.height = height * dpr
+                ctx.scale(dpr, dpr)
+
+                // 布局参数
+                const paddingLeft = 45
+                const paddingRight = 12
+                const paddingTop = 20
+                const paddingBottom = 30
+                const chartWidth = width - paddingLeft - paddingRight
+                const chartHeight = height - paddingTop - paddingBottom
+
+                // 求最大值
+                let maxVal = 0
+                yearlyData.forEach(d => {
+                    maxVal = Math.max(maxVal, d.income, d.expense)
+                })
+                if (maxVal === 0) maxVal = 100
+                // 向上取整到合适的刻度
+                const niceMax = this._niceNum(maxVal)
+
+                // 绘制背景网格线
+                const gridCount = 4
+                ctx.strokeStyle = '#f0f0f0'
+                ctx.lineWidth = 0.5
+                ctx.fillStyle = '#999'
+                ctx.font = '10px sans-serif'
+                ctx.textAlign = 'right'
+                ctx.textBaseline = 'middle'
+                for (let i = 0; i <= gridCount; i++) {
+                    const val = (niceMax / gridCount) * i
+                    const y = paddingTop + chartHeight - (val / niceMax) * chartHeight
+                    ctx.beginPath()
+                    ctx.moveTo(paddingLeft, y)
+                    ctx.lineTo(width - paddingRight, y)
+                    ctx.stroke()
+                    // Y 轴标签
+                    ctx.fillText(this._formatAxisLabel(val), paddingLeft - 6, y)
+                }
+
+                // 绘制柱子
+                const groupWidth = chartWidth / 12
+                const barWidth = groupWidth * 0.28
+                const barGap = groupWidth * 0.06
+
+                yearlyData.forEach((d, i) => {
+                    const groupX = paddingLeft + i * groupWidth
+                    const centerX = groupX + groupWidth / 2
+
+                    // 支出柱（红色）
+                    const expenseH = niceMax > 0 ? (d.expense / niceMax) * chartHeight : 0
+                    const expenseX = centerX - barWidth - barGap / 2
+                    const expenseY = paddingTop + chartHeight - expenseH
+
+                    if (expenseH > 0) {
+                        const expGrad = ctx.createLinearGradient(expenseX, expenseY, expenseX, paddingTop + chartHeight)
+                        expGrad.addColorStop(0, '#e74c3c')
+                        expGrad.addColorStop(1, '#f5a0a0')
+                        ctx.fillStyle = expGrad
+                        ctx.beginPath()
+                        this._roundRect(ctx, expenseX, expenseY, barWidth, expenseH, 3)
+                        ctx.fill()
+                    }
+
+                    // 收入柱（绿色）
+                    const incomeH = niceMax > 0 ? (d.income / niceMax) * chartHeight : 0
+                    const incomeX = centerX + barGap / 2
+                    const incomeY = paddingTop + chartHeight - incomeH
+
+                    if (incomeH > 0) {
+                        const incGrad = ctx.createLinearGradient(incomeX, incomeY, incomeX, paddingTop + chartHeight)
+                        incGrad.addColorStop(0, '#2ecc71')
+                        incGrad.addColorStop(1, '#a0f0c0')
+                        ctx.fillStyle = incGrad
+                        ctx.beginPath()
+                        this._roundRect(ctx, incomeX, incomeY, barWidth, incomeH, 3)
+                        ctx.fill()
+                    }
+
+                    // X 轴月份标签
+                    ctx.fillStyle = '#999'
+                    ctx.font = '10px sans-serif'
+                    ctx.textAlign = 'center'
+                    ctx.textBaseline = 'top'
+                    ctx.fillText(`${d.month}月`, centerX, paddingTop + chartHeight + 8)
+                })
+
+                // X 轴线
+                ctx.strokeStyle = '#e0e0e0'
+                ctx.lineWidth = 1
+                ctx.beginPath()
+                ctx.moveTo(paddingLeft, paddingTop + chartHeight)
+                ctx.lineTo(width - paddingRight, paddingTop + chartHeight)
+                ctx.stroke()
+            })
+    },
+
+    /** 绘制圆角矩形路径 */
+    _roundRect(ctx, x, y, w, h, r) {
+        if (h < r * 2) r = h / 2
+        if (w < r * 2) r = w / 2
+        ctx.moveTo(x + r, y)
+        ctx.lineTo(x + w - r, y)
+        ctx.arcTo(x + w, y, x + w, y + r, r)
+        ctx.lineTo(x + w, y + h)
+        ctx.lineTo(x, y + h)
+        ctx.lineTo(x, y + r)
+        ctx.arcTo(x, y, x + r, y, r)
+        ctx.closePath()
+    },
+
+    /** 将数值取整到好看的刻度 */
+    _niceNum(val) {
+        const exp = Math.floor(Math.log10(val))
+        const frac = val / Math.pow(10, exp)
+        let nice
+        if (frac <= 1) nice = 1
+        else if (frac <= 2) nice = 2
+        else if (frac <= 5) nice = 5
+        else nice = 10
+        return nice * Math.pow(10, exp)
+    },
+
+    /** 格式化 Y 轴标签 */
+    _formatAxisLabel(val) {
+        if (val >= 10000) return (val / 10000).toFixed(val % 10000 === 0 ? 0 : 1) + 'w'
+        if (val >= 1000) return (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'k'
+        return String(Math.round(val))
     }
 })
