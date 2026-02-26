@@ -299,16 +299,20 @@ page {
   color: #666;
 }
 
-.bar-canvas-wrap {
+.bar-scroll {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  white-space: nowrap;
   margin-bottom: 24rpx;
 }
 
+.bar-canvas-inner {
+  width: 900rpx;
+  display: inline-block;
+}
+
 .bar-canvas {
-  width: 100%;
-  height: 400rpx;
+  width: 900rpx;
+  height: 480rpx;
 }
 
 /* ==================== 年度汇总 ==================== */

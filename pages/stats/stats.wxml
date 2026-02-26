@@ -142,9 +142,11 @@
     </view>
   </view>
 
-  <view class="bar-canvas-wrap">
-    <canvas id="yearlyBarCanvas" type="2d" class="bar-canvas"></canvas>
-  </view>
+  <scroll-view class="bar-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="bar-canvas-inner">
+      <canvas id="yearlyBarCanvas" type="2d" class="bar-canvas"></canvas>
+    </view>
+  </scroll-view>
 
   <view class="yearly-summary">
     <view class="yearly-summary-item">

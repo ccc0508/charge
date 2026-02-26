@@ -255,7 +255,7 @@ Page({
         return { data, totalIncome, totalExpense, balance, hasData }
     },
 
-    /** 绘制年度收支柱形图 */
+    /** 绘制年度收支柱形图（可滚动宽画布） */
     drawBarChart(canvasId, yearlyData) {
         const query = wx.createSelectorQuery()
         query.select(`#${canvasId}`)
@@ -274,9 +274,9 @@ Page({
                 ctx.scale(dpr, dpr)
 
                 // 布局参数
-                const paddingLeft = 45
-                const paddingRight = 12
-                const paddingTop = 20
+                const paddingLeft = 10
+                const paddingRight = 10
+                const paddingTop = 40   // 留空间给柱顶金额文字
                 const paddingBottom = 30
                 const chartWidth = width - paddingLeft - paddingRight
                 const chartHeight = height - paddingTop - paddingBottom
@@ -287,38 +287,31 @@ Page({
                     maxVal = Math.max(maxVal, d.income, d.expense)
                 })
                 if (maxVal === 0) maxVal = 100
-                // 向上取整到合适的刻度
                 const niceMax = this._niceNum(maxVal)
 
-                // 绘制背景网格线
+                // 绘制背景网格线（浅色虚线）
                 const gridCount = 4
                 ctx.strokeStyle = '#f0f0f0'
                 ctx.lineWidth = 0.5
-                ctx.fillStyle = '#999'
-                ctx.font = '10px sans-serif'
-                ctx.textAlign = 'right'
-                ctx.textBaseline = 'middle'
-                for (let i = 0; i <= gridCount; i++) {
+                for (let i = 1; i <= gridCount; i++) {
                     const val = (niceMax / gridCount) * i
                     const y = paddingTop + chartHeight - (val / niceMax) * chartHeight
                     ctx.beginPath()
                     ctx.moveTo(paddingLeft, y)
                     ctx.lineTo(width - paddingRight, y)
                     ctx.stroke()
-                    // Y 轴标签
-                    ctx.fillText(this._formatAxisLabel(val), paddingLeft - 6, y)
                 }
 
                 // 绘制柱子
                 const groupWidth = chartWidth / 12
-                const barWidth = groupWidth * 0.28
+                const barWidth = groupWidth * 0.32
                 const barGap = groupWidth * 0.06
 
                 yearlyData.forEach((d, i) => {
                     const groupX = paddingLeft + i * groupWidth
                     const centerX = groupX + groupWidth / 2
 
-                    // 支出柱（红色）
+                    // === 支出柱（红色）===
                     const expenseH = niceMax > 0 ? (d.expense / niceMax) * chartHeight : 0
                     const expenseX = centerX - barWidth - barGap / 2
                     const expenseY = paddingTop + chartHeight - expenseH
@@ -329,11 +322,18 @@ Page({
                         expGrad.addColorStop(1, '#f5a0a0')
                         ctx.fillStyle = expGrad
                         ctx.beginPath()
-                        this._roundRect(ctx, expenseX, expenseY, barWidth, expenseH, 3)
+                        this._roundRect(ctx, expenseX, expenseY, barWidth, expenseH, 4)
                         ctx.fill()
+
+                        // 柱顶金额
+                        ctx.fillStyle = '#e74c3c'
+                        ctx.font = 'bold 9px sans-serif'
+                        ctx.textAlign = 'center'
+                        ctx.textBaseline = 'bottom'
+                        ctx.fillText(this._formatBarLabel(d.expense), expenseX + barWidth / 2, expenseY - 4)
                     }
 
-                    // 收入柱（绿色）
+                    // === 收入柱（绿色）===
                     const incomeH = niceMax > 0 ? (d.income / niceMax) * chartHeight : 0
                     const incomeX = centerX + barGap / 2
                     const incomeY = paddingTop + chartHeight - incomeH
@@ -344,13 +344,20 @@ Page({
                         incGrad.addColorStop(1, '#a0f0c0')
                         ctx.fillStyle = incGrad
                         ctx.beginPath()
-                        this._roundRect(ctx, incomeX, incomeY, barWidth, incomeH, 3)
+                        this._roundRect(ctx, incomeX, incomeY, barWidth, incomeH, 4)
                         ctx.fill()
+
+                        // 柱顶金额
+                        ctx.fillStyle = '#2ecc71'
+                        ctx.font = 'bold 9px sans-serif'
+                        ctx.textAlign = 'center'
+                        ctx.textBaseline = 'bottom'
+                        ctx.fillText(this._formatBarLabel(d.income), incomeX + barWidth / 2, incomeY - 4)
                     }
 
                     // X 轴月份标签
                     ctx.fillStyle = '#999'
-                    ctx.font = '10px sans-serif'
+                    ctx.font = '11px sans-serif'
                     ctx.textAlign = 'center'
                     ctx.textBaseline = 'top'
                     ctx.fillText(`${d.month}月`, centerX, paddingTop + chartHeight + 8)
@@ -397,5 +404,13 @@ Page({
         if (val >= 10000) return (val / 10000).toFixed(val % 10000 === 0 ? 0 : 1) + 'w'
         if (val >= 1000) return (val / 1000).toFixed(val % 1000 === 0 ? 0 : 1) + 'k'
         return String(Math.round(val))
+    },
+
+    /** 格式化柱顶金额标签 */
+    _formatBarLabel(val) {
+        if (val >= 10000) return (val / 10000).toFixed(1) + 'w'
+        if (val >= 1000) return (val / 1000).toFixed(1) + 'k'
+        if (val === 0) return ''
+        return val.toFixed(0)
     }
 })
