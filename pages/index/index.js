@@ -135,9 +135,17 @@ Page({
 
   /** 跳转到统计页面 */
   goToStats() {
-    wx.navigateTo({
-      url: '/pages/stats/stats'
-    })
+    wx.navigateTo({ url: '/pages/stats/stats' })
+  },
+
+  /** 跳转到排行榜 */
+  goToRank() {
+    wx.navigateTo({ url: '/pages/rank/rank' })
+  },
+
+  /** 跳转到收支趋势 */
+  goToTrend() {
+    wx.navigateTo({ url: '/pages/trend/trend' })
   },
 
   /** 触摸开始 */

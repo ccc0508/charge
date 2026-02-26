@@ -1,0 +1,62 @@
+<!--pages/rank/rank.wxml-->
+
+<view class="stats-header">
+  <text class="stats-title">排行榜</text>
+  <view class="month-selector">
+    <view class="nav-arrow" bindtap="prevMonth">‹</view>
+    <text class="nav-title">{{currentMonth}}月</text>
+    <view class="nav-arrow" bindtap="nextMonth">›</view>
+  </view>
+</view>
+
+<!-- 支出排行榜 -->
+<view class="section-card" wx:if="{{hasExpense}}">
+  <view class="section-header">
+    <text class="section-title">🔴 支出 TOP {{expenseRank.length}}</text>
+  </view>
+  <view class="rank-list">
+    <view wx:for="{{expenseRank}}" wx:key="id" class="rank-item">
+      <view class="rank-left">
+        <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
+        <view class="rank-icon-wrap rank-icon-expense">
+          <text class="rank-icon">{{item.categoryIcon}}</text>
+        </view>
+        <view class="rank-info">
+          <text class="rank-label">{{item.categoryLabel}}</text>
+          <text class="rank-note">{{item.note || item.date}}</text>
+        </view>
+      </view>
+      <text class="rank-amount expense-color">{{item.amountText}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 收入排行榜 -->
+<view class="section-card" wx:if="{{hasIncome}}">
+  <view class="section-header">
+    <text class="section-title">🟢 收入 TOP {{incomeRank.length}}</text>
+  </view>
+  <view class="rank-list">
+    <view wx:for="{{incomeRank}}" wx:key="id" class="rank-item">
+      <view class="rank-left">
+        <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
+        <view class="rank-icon-wrap rank-icon-income">
+          <text class="rank-icon">{{item.categoryIcon}}</text>
+        </view>
+        <view class="rank-info">
+          <text class="rank-label">{{item.categoryLabel}}</text>
+          <text class="rank-note">{{item.note || item.date}}</text>
+        </view>
+      </view>
+      <text class="rank-amount income-color">{{item.amountText}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 空状态 -->
+<view wx:if="{{!hasExpense && !hasIncome}}" class="empty-state">
+  <text class="empty-icon">🏆</text>
+  <text class="empty-text">本月暂无记录</text>
+</view>
+
+<view style="height: 60rpx;"></view>

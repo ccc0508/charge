@@ -22,9 +22,7 @@
       <canvas id="expenseCanvas" type="2d" class="pie-canvas"></canvas>
     </view>
 
-    <!-- 排行榜式图例（带进度条） -->
     <view class="rank-bar-list">
-      <view class="rank-bar-title">排行榜</view>
       <view wx:for="{{expenseData}}" wx:key="category" class="rank-bar-item">
         <view class="rank-bar-left">
           <text class="rank-bar-icon">{{item.icon}}</text>
@@ -58,7 +56,6 @@
     </view>
 
     <view class="rank-bar-list">
-      <view class="rank-bar-title">排行榜</view>
       <view wx:for="{{incomeData}}" wx:key="category" class="rank-bar-item">
         <view class="rank-bar-left">
           <text class="rank-bar-icon">{{item.icon}}</text>
@@ -79,90 +76,4 @@
   </view>
 </view>
 
-<!-- 支出排行榜 -->
-<view class="chart-section" wx:if="{{hasExpense}}">
-  <view class="chart-header">
-    <text class="chart-title">🏆 支出排行榜</text>
-    <text class="chart-total" style="color:#999;font-size:24rpx;">TOP {{expenseRank.length}}</text>
-  </view>
-  <view class="rank-list">
-    <view wx:for="{{expenseRank}}" wx:key="id" class="rank-item">
-      <view class="rank-left">
-        <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
-        <view class="rank-icon-wrap rank-icon-expense">
-          <text class="rank-icon">{{item.categoryIcon}}</text>
-        </view>
-        <view class="rank-info">
-          <text class="rank-label">{{item.categoryLabel}}</text>
-          <text class="rank-note">{{item.note || item.date}}</text>
-        </view>
-      </view>
-      <text class="rank-amount expense-color">{{item.amountText}}</text>
-    </view>
-  </view>
-</view>
-
-<!-- 收入排行榜 -->
-<view class="chart-section" wx:if="{{hasIncome}}">
-  <view class="chart-header">
-    <text class="chart-title">🏆 收入排行榜</text>
-    <text class="chart-total" style="color:#999;font-size:24rpx;">TOP {{incomeRank.length}}</text>
-  </view>
-  <view class="rank-list">
-    <view wx:for="{{incomeRank}}" wx:key="id" class="rank-item">
-      <view class="rank-left">
-        <view class="rank-medal {{item.rank <= 3 ? 'rank-top' : ''}}">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}}</view>
-        <view class="rank-icon-wrap rank-icon-income">
-          <text class="rank-icon">{{item.categoryIcon}}</text>
-        </view>
-        <view class="rank-info">
-          <text class="rank-label">{{item.categoryLabel}}</text>
-          <text class="rank-note">{{item.note || item.date}}</text>
-        </view>
-      </view>
-      <text class="rank-amount income-color">{{item.amountText}}</text>
-    </view>
-  </view>
-</view>
-
-<!-- 年度收支趋势柱形图 -->
-<view class="chart-section" wx:if="{{hasYearlyData}}">
-  <view class="chart-header">
-    <text class="chart-title">📊 {{currentYear}}年收支趋势</text>
-  </view>
-
-  <view class="bar-legend">
-    <view class="bar-legend-item">
-      <view class="bar-legend-dot" style="background: #e74c3c;"></view>
-      <text class="bar-legend-text">支出</text>
-    </view>
-    <view class="bar-legend-item">
-      <view class="bar-legend-dot" style="background: #2ecc71;"></view>
-      <text class="bar-legend-text">收入</text>
-    </view>
-  </view>
-
-  <scroll-view class="bar-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
-    <view class="bar-canvas-inner">
-      <canvas id="yearlyBarCanvas" type="2d" class="bar-canvas"></canvas>
-    </view>
-  </scroll-view>
-
-  <view class="yearly-summary">
-    <view class="yearly-summary-item">
-      <text class="yearly-summary-label">年度收入</text>
-      <text class="yearly-summary-value income-color">¥{{yearlyTotalIncome}}</text>
-    </view>
-    <view class="yearly-summary-item">
-      <text class="yearly-summary-label">年度支出</text>
-      <text class="yearly-summary-value expense-color">¥{{yearlyTotalExpense}}</text>
-    </view>
-    <view class="yearly-summary-item">
-      <text class="yearly-summary-label">年度结余</text>
-      <text class="yearly-summary-value" style="color: {{yearlyBalance >= 0 ? '#2ecc71' : '#e74c3c'}}">¥{{yearlyBalance}}</text>
-    </view>
-  </view>
-</view>
-
-<!-- 底部留白 -->
 <view style="height: 60rpx;"></view>

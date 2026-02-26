@@ -1,0 +1,55 @@
+<!--pages/trend/trend.wxml-->
+
+<view class="stats-header">
+  <text class="stats-title">收支趋势</text>
+  <view class="month-selector">
+    <view class="nav-arrow" bindtap="prevYear">‹</view>
+    <text class="nav-title">{{currentYear}}年</text>
+    <view class="nav-arrow" bindtap="nextYear">›</view>
+  </view>
+</view>
+
+<view class="section-card" wx:if="{{hasYearlyData}}">
+  <!-- 图例 -->
+  <view class="bar-legend">
+    <view class="bar-legend-item">
+      <view class="bar-legend-dot" style="background: #e74c3c;"></view>
+      <text class="bar-legend-text">支出</text>
+    </view>
+    <view class="bar-legend-item">
+      <view class="bar-legend-dot" style="background: #2ecc71;"></view>
+      <text class="bar-legend-text">收入</text>
+    </view>
+  </view>
+
+  <!-- 柱形图 -->
+  <scroll-view class="bar-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="bar-canvas-inner">
+      <canvas id="yearlyBarCanvas" type="2d" class="bar-canvas"></canvas>
+    </view>
+  </scroll-view>
+
+  <!-- 年度汇总 -->
+  <view class="yearly-summary">
+    <view class="yearly-summary-item">
+      <text class="yearly-summary-label">年度收入</text>
+      <text class="yearly-summary-value income-color">¥{{yearlyTotalIncome}}</text>
+    </view>
+    <view class="yearly-summary-item">
+      <text class="yearly-summary-label">年度支出</text>
+      <text class="yearly-summary-value expense-color">¥{{yearlyTotalExpense}}</text>
+    </view>
+    <view class="yearly-summary-item">
+      <text class="yearly-summary-label">年度结余</text>
+      <text class="yearly-summary-value" style="color: {{yearlyBalance >= 0 ? '#2ecc71' : '#e74c3c'}}">¥{{yearlyBalance}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 空状态 -->
+<view wx:if="{{!hasYearlyData}}" class="empty-state">
+  <text class="empty-icon">📊</text>
+  <text class="empty-text">本年暂无记录</text>
+</view>
+
+<view style="height: 60rpx;"></view>
