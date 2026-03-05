@@ -182,6 +182,13 @@ Page({
     wx.navigateTo({ url: '/pages/asset/asset' })
   },
 
+  /** 点击记录进入编辑 */
+  onRecordTap(e) {
+    if (this._swiping) return  // 滑动中不跳转
+    const { id } = e.currentTarget.dataset
+    wx.navigateTo({ url: `/pages/add/add?id=${id}` })
+  },
+
   /** 触摸开始 */
   onTouchStart(e) {
     this._touchStartX = e.touches[0].clientX

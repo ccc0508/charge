@@ -60,15 +60,38 @@ Page({
         note: '',
         date: '',
         dateLabel: '今天',
-        saving: false
+        saving: false,
+        isEdit: false,
+        editId: ''
     },
 
-    onLoad() {
+    onLoad(options) {
         const today = getToday()
-        this.setData({
-            date: today,
-            dateLabel: '今天'
-        })
+        this.setData({ date: today, dateLabel: '今天' })
+
+        // 编辑模式：从 URL 参数还原记录
+        if (options.id) {
+            const records = storage.getRecords()
+            const record = records.find(r => r.id === options.id)
+            if (record) {
+                const type = record.type
+                const categories = type === 'income' ? incomeCategories : expenseCategories
+                const amountStr = String(record.amount)
+                this.setData({
+                    isEdit: true,
+                    editId: record.id,
+                    type,
+                    categories,
+                    selectedCategory: record.category,
+                    amount: amountStr,
+                    displayAmount: amountStr,
+                    note: record.note || '',
+                    date: record.date,
+                    dateLabel: formatDateLabel(record.date)
+                })
+                wx.setNavigationBarTitle({ title: '修改记录' })
+            }
+        }
     },
 
     /** 切换 收入/支出 Tab */
@@ -155,11 +178,10 @@ Page({
 
     /** 保存记录 */
     onSave() {
-        const { amount, type, selectedCategory, note, date, saving } = this.data
+        const { amount, type, selectedCategory, note, date, saving, isEdit, editId } = this.data
 
         if (saving) return
 
-        // 校验金额
         if (!amount || parseFloat(amount) <= 0) {
             wx.showToast({ title: '请输入金额', icon: 'none' })
             return
@@ -167,16 +189,22 @@ Page({
 
         this.setData({ saving: true })
 
-        storage.saveRecord({
+        const recordData = {
             amount: parseFloat(amount),
             type,
             category: selectedCategory,
             note,
             date
-        })
+        }
+
+        if (isEdit) {
+            storage.updateRecord(editId, recordData)
+        } else {
+            storage.saveRecord(recordData)
+        }
 
         wx.showToast({
-            title: '保存成功',
+            title: isEdit ? '修改成功' : '保存成功',
             icon: 'success',
             duration: 800
         })

@@ -66,6 +66,25 @@ function deleteRecord(id) {
 }
 
 /**
+ * 更新一条记录
+ * @param {string} id - 记录 ID
+ * @param {object} data - 要更新的字段
+ * @returns {boolean} 是否更新成功
+ */
+function updateRecord(id, data) {
+    const records = getRecords()
+    const index = records.findIndex(r => r.id === id)
+    if (index === -1) return false
+    records[index] = {
+        ...records[index],
+        ...data,
+        amount: Math.round(parseFloat(data.amount) * 100) / 100
+    }
+    wx.setStorageSync(STORAGE_KEY, records)
+    return true
+}
+
+/**
  * 获取指定月份的记录
  * @param {number} year  - 年份，如 2026
  * @param {number} month - 月份 1-12
@@ -129,6 +148,7 @@ module.exports = {
     saveRecord,
     getRecords,
     deleteRecord,
+    updateRecord,
     getMonthRecords,
     getYearRecords,
     getInitialAsset,

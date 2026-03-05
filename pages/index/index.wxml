@@ -84,6 +84,7 @@
           class="record-item"
           style="transform: translateX({{record.swipeOffset || 0}}px);"
           data-id="{{record.id}}"
+          bindtap="onRecordTap"
           bindtouchstart="onTouchStart"
           bindtouchmove="onTouchMove"
           bindtouchend="onTouchEnd"
