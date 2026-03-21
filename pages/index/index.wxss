@@ -186,6 +186,38 @@ page {
   color: #999;
 }
 
+/* 日期标题 + 每日总结 */
+.date-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8rpx;
+}
+
+.date-label {
+  font-size: 26rpx;
+  color: #999;
+  font-weight: 500;
+}
+
+.day-summary {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.day-income {
+  font-size: 24rpx;
+  color: #2ecc71;
+  font-weight: 500;
+}
+
+.day-expense {
+  font-size: 24rpx;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
 /* 记录卡片容器 */
 .records-card {
   background: #ffffff;

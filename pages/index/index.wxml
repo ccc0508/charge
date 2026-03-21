@@ -71,6 +71,10 @@
   <view wx:for="{{groupedRecords}}" wx:key="date" class="date-group">
     <view class="date-header">
       <text class="date-label">{{item.dateLabel}}</text>
+      <view class="day-summary">
+        <text wx:if="{{item.dayIncome > 0}}" class="day-income">+{{item.dayIncome}}</text>
+        <text wx:if="{{item.dayExpense > 0}}" class="day-expense">-{{item.dayExpense}}</text>
+      </view>
     </view>
 
     <view class="records-card">

@@ -135,6 +135,17 @@ Page({
       currentGroup.records.push(enriched)
     })
 
+    // 计算每日总结
+    groups.forEach(g => {
+      let dayIncome = 0, dayExpense = 0
+      g.records.forEach(r => {
+        if (r.isIncome) dayIncome += r.amount
+        else dayExpense += r.amount
+      })
+      g.dayIncome = Math.round(dayIncome * 100) / 100
+      g.dayExpense = Math.round(dayExpense * 100) / 100
+    })
+
     return groups
   },
 
