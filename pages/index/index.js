@@ -7,11 +7,14 @@ const CATEGORY_MAP = {
   transport: { label: '交通', icon: '🚌' },
   shopping: { label: '购物', icon: '🛒' },
   entertainment: { label: '娱乐', icon: '🎮' },
+  housing: { label: '住房', icon: '🏠' },
   medical: { label: '医疗', icon: '💊' },
+  education: { label: '教育', icon: '📚' },
   other_expense: { label: '其他', icon: '📦' },
   salary: { label: '工资', icon: '💰' },
   bonus: { label: '奖金', icon: '🎁' },
   investment: { label: '理财', icon: '📈' },
+  parttime: { label: '兼职', icon: '💼' },
   other_income: { label: '其他', icon: '📦' }
 }
 
