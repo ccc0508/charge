@@ -70,13 +70,13 @@ Page({
         const expenseData = this.groupByCategory(expenseRecords, EXPENSE_COLORS)
         const incomeData = this.groupByCategory(incomeRecords, INCOME_COLORS)
 
-        const totalExpense = expenseData.reduce((s, d) => s + d.total, 0)
-        const totalIncome = incomeData.reduce((s, d) => s + d.total, 0)
+        const totalExpense = Math.round(expenseData.reduce((s, d) => s + d.total, 0) * 100) / 100
+        const totalIncome = Math.round(incomeData.reduce((s, d) => s + d.total, 0) * 100) / 100
 
         this.setData({
             expenseData, incomeData,
-            totalExpense: Math.round(totalExpense * 100) / 100,
-            totalIncome: Math.round(totalIncome * 100) / 100,
+            totalExpense,
+            totalIncome,
             hasExpense: expenseData.length > 0,
             hasIncome: incomeData.length > 0
         })
@@ -142,7 +142,7 @@ Page({
                 ctx.font = 'bold 16px sans-serif'
                 ctx.textAlign = 'center'
                 ctx.textBaseline = 'middle'
-                ctx.fillText(`¥${total}`, cx, cy)
+                ctx.fillText(`¥${total.toFixed(2)}`, cx, cy)
             })
     }
 })
