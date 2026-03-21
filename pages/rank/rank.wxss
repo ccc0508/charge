@@ -24,7 +24,7 @@ page { background-color: #f7f8fc; }
 .rank-top-2 { background: #C0C0C0; }
 .rank-top-3 { background: #CD7F32; }
 .rank-icon-wrap { width: 64rpx; height: 64rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.rank-icon { font-size: 28rpx; color: #ffffff; font-weight: 600; }
+.rank-icon { font-size: 32rpx; }
 .rank-info { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
 .rank-label { font-size: 28rpx; font-weight: 600; color: #1a1a2e; }
 .rank-note { font-size: 22rpx; color: #aaa; margin-top: 4rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

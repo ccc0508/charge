@@ -1,0 +1,45 @@
+/**
+ * 图标映射 WXS 模块
+ * 在渲染层直接生成 emoji，避免通过 setData 传输 emoji 字符
+ */
+
+var ICONS = {
+  food:           '\uD83C\uDF54',
+  transport:      '\uD83D\uDE8C',
+  shopping:       '\uD83D\uDED2',
+  entertainment:  '\uD83C\uDFAE',
+  housing:        '\uD83C\uDFE0',
+  medical:        '\uD83D\uDC8A',
+  education:      '\uD83D\uDCDA',
+  other_expense:  '\uD83D\uDCE6',
+  salary:         '\uD83D\uDCB0',
+  bonus:          '\uD83C\uDF81',
+  investment:     '\uD83D\uDCC8',
+  parttime:       '\uD83D\uDCBC',
+  other_income:   '\uD83D\uDCE6'
+}
+
+var COLORS = {
+  food:           '#e74c3c',
+  transport:      '#3498db',
+  shopping:       '#e67e22',
+  entertainment:  '#9b59b6',
+  housing:        '#1abc9c',
+  medical:        '#e74c3c',
+  education:      '#3498db',
+  other_expense:  '#95a5a6',
+  salary:         '#2ecc71',
+  bonus:          '#f1c40f',
+  investment:     '#27ae60',
+  parttime:       '#16a085',
+  other_income:   '#95a5a6'
+}
+
+module.exports = {
+  getIcon: function(key) {
+    return ICONS[key] || '\uD83D\uDCE6'
+  },
+  getColor: function(key) {
+    return COLORS[key] || '#95a5a6'
+  }
+}

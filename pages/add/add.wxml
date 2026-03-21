@@ -1,4 +1,5 @@
 <!--pages/add/add.wxml-->
+<wxs src="../../utils/icons.wxs" module="icons" />
 
 <!-- 收入/支出 Tab -->
 <view class="tabs-wrap">
@@ -34,8 +35,8 @@
     data-key="{{item.key}}"
     bindtap="onCategoryTap"
   >
-    <view class="cat-icon-wrap {{selectedCategory === item.key ? 'cat-selected' : ''}}" style="background: {{item.iconColor}};">
-      <text class="cat-icon">{{item.icon}}</text>
+    <view class="cat-icon-wrap {{selectedCategory === item.key ? 'cat-selected' : ''}}" style="background: {{icons.getColor(item.key)}};">
+      <text class="cat-icon">{{icons.getIcon(item.key)}}</text>
     </view>
     <text class="cat-label {{selectedCategory === item.key ? 'cat-label-active' : ''}}">{{item.label}}</text>
   </view>

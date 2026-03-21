@@ -88,9 +88,7 @@ page {
 }
 
 .cat-icon {
-  font-size: 32rpx;
-  color: #ffffff;
-  font-weight: 600;
+  font-size: 40rpx;
 }
 
 .cat-label {

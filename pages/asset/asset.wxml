@@ -1,4 +1,5 @@
 <!--pages/asset/asset.wxml-->
+<wxs src="../../utils/icons.wxs" module="icons" />
 
 <view class="page-header">
   <text class="page-title">我的资产</text>
@@ -17,8 +18,8 @@
 <view class="detail-section">
   <view class="detail-item">
     <view class="detail-left">
-      <view class="detail-icon-wrap" style="background:#5c6bc0;">
-        <text class="detail-icon">初</text>
+      <view class="detail-icon-wrap" style="background:#eef0fb;">
+        <text class="detail-icon">🏦</text>
       </view>
       <text class="detail-label">起始资产</text>
     </view>
@@ -29,8 +30,8 @@
 
   <view class="detail-item">
     <view class="detail-left">
-      <view class="detail-icon-wrap" style="background:#2ecc71;">
-        <text class="detail-icon">入</text>
+      <view class="detail-icon-wrap" style="background:#edfcf2;">
+        <text class="detail-icon">📥</text>
       </view>
       <text class="detail-label">累计收入</text>
     </view>
@@ -41,8 +42,8 @@
 
   <view class="detail-item">
     <view class="detail-left">
-      <view class="detail-icon-wrap" style="background:#e74c3c;">
-        <text class="detail-icon">出</text>
+      <view class="detail-icon-wrap" style="background:#fff0ee;">
+        <text class="detail-icon">📤</text>
       </view>
       <text class="detail-label">累计支出</text>
     </view>
