@@ -36,7 +36,7 @@
     bindtap="onCategoryTap"
   >
     <view class="cat-icon-wrap {{selectedCategory === item.key ? 'cat-selected' : ''}}" style="background: {{icons.getColor(item.key)}};">
-      <text class="cat-icon">{{icons.getIcon(item.key)}}</text>
+      <image class="cat-icon" src="{{icons.getIcon(item.key)}}" />
     </view>
     <text class="cat-label {{selectedCategory === item.key ? 'cat-label-active' : ''}}">{{item.label}}</text>
   </view>

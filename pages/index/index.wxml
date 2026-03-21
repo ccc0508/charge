@@ -34,26 +34,26 @@
 <!-- 快捷入口 -->
 <view class="quick-actions">
   <view class="quick-item" bindtap="goToStats">
-    <view class="quick-icon-wrap" style="background:#eef0fb;">
-      <text class="quick-icon">📊</text>
+    <view class="quick-icon-wrap" style="background:#5c6bc0;">
+      <image class="quick-icon" src="/images/icons/stats.svg" />
     </view>
     <text class="quick-label">报表</text>
   </view>
   <view class="quick-item" bindtap="goToRank">
-    <view class="quick-icon-wrap" style="background:#fef4e6;">
-      <text class="quick-icon">🏆</text>
+    <view class="quick-icon-wrap" style="background:#ff9800;">
+      <image class="quick-icon" src="/images/icons/rank.svg" />
     </view>
     <text class="quick-label">排行</text>
   </view>
   <view class="quick-item" bindtap="goToTrend">
-    <view class="quick-icon-wrap" style="background:#e8f5e9;">
-      <text class="quick-icon">📈</text>
+    <view class="quick-icon-wrap" style="background:#4caf50;">
+      <image class="quick-icon" src="/images/icons/trend.svg" />
     </view>
     <text class="quick-label">趋势</text>
   </view>
   <view class="quick-item" bindtap="goToAsset">
-    <view class="quick-icon-wrap" style="background:#fde8e8;">
-      <text class="quick-icon">💰</text>
+    <view class="quick-icon-wrap" style="background:#ef5350;">
+      <image class="quick-icon" src="/images/icons/asset.svg" />
     </view>
     <text class="quick-label">资产</text>
   </view>
@@ -96,7 +96,7 @@
         >
           <view class="record-left">
             <view class="record-icon-wrap" style="background: {{icons.getColor(record.category)}};">
-              <text class="record-icon">{{icons.getIcon(record.category)}}</text>
+              <image class="record-icon" src="{{icons.getIcon(record.category)}}" />
             </view>
             <view class="record-info">
               <text class="record-category">{{record.categoryLabel}}</text>

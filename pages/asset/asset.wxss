@@ -41,7 +41,7 @@ page { background-color: #f7f8fc; }
 .detail-divider { height: 1rpx; background: #f5f5f5; }
 .detail-left { display: flex; align-items: center; gap: 16rpx; }
 .detail-icon-wrap { width: 72rpx; height: 72rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.detail-icon { font-size: 32rpx; }
+.detail-icon { width: 36rpx; height: 36rpx; }
 .detail-label { font-size: 28rpx; font-weight: 500; color: #333; }
 .detail-value { font-size: 30rpx; font-weight: 700; color: #1a1a2e; }
 .income-color { color: #2ecc71; }

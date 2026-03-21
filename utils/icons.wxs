@@ -1,22 +1,22 @@
 /**
  * 图标映射 WXS 模块
- * 在渲染层直接生成 emoji，避免通过 setData 传输 emoji 字符
+ * 返回本地 SVG 图标路径和对应颜色
  */
 
-var ICONS = {
-  food:           '🍔',
-  transport:      '🚌',
-  shopping:       '🛒',
-  entertainment:  '🎮',
-  housing:        '🏠',
-  medical:        '💊',
-  education:      '📚',
-  other_expense:  '📦',
-  salary:         '💰',
-  bonus:          '🎁',
-  investment:     '📈',
-  parttime:       '💼',
-  other_income:   '📦'
+var ICON_PATH = {
+  food:           '/images/icons/food.svg',
+  transport:      '/images/icons/transport.svg',
+  shopping:       '/images/icons/shopping.svg',
+  entertainment:  '/images/icons/entertainment.svg',
+  housing:        '/images/icons/housing.svg',
+  medical:        '/images/icons/medical.svg',
+  education:      '/images/icons/education.svg',
+  other_expense:  '/images/icons/other.svg',
+  salary:         '/images/icons/salary.svg',
+  bonus:          '/images/icons/bonus.svg',
+  investment:     '/images/icons/investment.svg',
+  parttime:       '/images/icons/parttime.svg',
+  other_income:   '/images/icons/other.svg'
 }
 
 var COLORS = {
@@ -37,7 +37,7 @@ var COLORS = {
 
 module.exports = {
   getIcon: function(key) {
-    return ICONS[key] || '📦'
+    return ICON_PATH[key] || '/images/icons/other.svg'
   },
   getColor: function(key) {
     return COLORS[key] || '#95a5a6'

@@ -132,7 +132,8 @@ page {
 }
 
 .quick-icon {
-  font-size: 40rpx;
+  width: 48rpx;
+  height: 48rpx;
 }
 
 .quick-label {
@@ -284,7 +285,8 @@ page {
 }
 
 .record-icon {
-  font-size: 36rpx;
+  width: 44rpx;
+  height: 44rpx;
 }
 
 .record-info {
