@@ -34,7 +34,7 @@
     data-key="{{item.key}}"
     bindtap="onCategoryTap"
   >
-    <view class="cat-icon-wrap {{selectedCategory === item.key ? 'cat-selected' : ''}}">
+    <view class="cat-icon-wrap {{selectedCategory === item.key ? 'cat-selected' : ''}}" style="background: {{item.iconColor}};">
       <text class="cat-icon">{{item.icon}}</text>
     </view>
     <text class="cat-label {{selectedCategory === item.key ? 'cat-label-active' : ''}}">{{item.label}}</text>

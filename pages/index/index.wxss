@@ -132,7 +132,9 @@ page {
 }
 
 .quick-icon {
-  font-size: 40rpx;
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .quick-label {
@@ -283,16 +285,10 @@ page {
   flex-shrink: 0;
 }
 
-.icon-bg-expense {
-  background: #fff0ee;
-}
-
-.icon-bg-income {
-  background: #edfcf2;
-}
-
 .record-icon {
-  font-size: 36rpx;
+  font-size: 30rpx;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .record-info {

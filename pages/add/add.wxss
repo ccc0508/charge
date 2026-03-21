@@ -83,13 +83,14 @@ page {
 }
 
 .cat-selected {
-  background: #ff6b35 !important;
-  box-shadow: 0 6rpx 20rpx rgba(255, 107, 53, 0.35);
+  box-shadow: 0 0 0 4rpx #ff6b35, 0 6rpx 20rpx rgba(255, 107, 53, 0.35);
   transform: scale(1.08);
 }
 
 .cat-icon {
-  font-size: 40rpx;
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .cat-label {
